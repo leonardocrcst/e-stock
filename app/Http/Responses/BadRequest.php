@@ -2,17 +2,14 @@
 
 namespace App\Http\Responses;
 
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use stdClass;
-
-class BadRequest extends
-    AnonymousResourceCollection
+class BadRequest
 {
-    static public function get(string $message = null): stdClass
+    static public function get(string $message = null)
     {
-        $response = new stdClass();
-        $response->message = "Requisição inválida.";
-        $response->details = $message;
-        return $response;
+        return response(
+            "{message: \"Requisição inválida\", details: $message}",
+            400,
+            ["Content-Type" => "application/json"]
+        );
     }
 }

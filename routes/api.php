@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+const AUTH = "auth:sanctum";
+
+Route::middleware(AUTH)->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get("/log/{from?}/{to?}", [LogController::class, "index"]);
+Route::get("/login", [LoginController::class, "unauthenticated"])->name("login");
+Route::post("/login", [LoginController::class, "login"]);
+Route::middleware(AUTH)->get("/logout", [LoginController::class, "logout"])->name("logout");
+Route::middleware(AUTH)->get("/log/{from?}/{to?}", [LogController::class, "index"]);

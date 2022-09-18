@@ -13,7 +13,9 @@ class LogController extends Controller
 {
     public function index(string $from = null, string $to = null): string|stdClass
     {
+        $user = auth()->user();
         try {
+            Log::register($user, "Consultou o log do sistema");
             $_start = $this->getInitialDate($from);
             $_from = $_start->format("Y-m-d");
             $_to = $this->getFinalDate($_start, $to)->format("Y-m-d");
